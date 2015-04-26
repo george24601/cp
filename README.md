@@ -1,2 +1,2 @@
-# uva
-code to UVa online judge
+# UVa
+Solutions to UVa online judge
