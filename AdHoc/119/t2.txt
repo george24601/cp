@@ -1,0 +1,16 @@
+5
+dave
+laura
+owen
+vick
+amr
+dave
+200 0
+owen
+500 0
+amr
+150 0
+laura
+0 0
+vick
+0 0
