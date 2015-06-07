@@ -1,17 +1,8 @@
-11504
-
 ----
 11516
 Somewhat similar to greedy, but cant greedy directly
 
 ----
-11517
-
-11549
-
-11553
-
----
 11572
 How to handle set?
 
@@ -23,31 +14,22 @@ coding practice
 11576
 coding practice
 
-----
-11597
+--
+11581
+easier problem:
+all 0 grids: identity, v can be infinite
+all 1 grids:
+f(2, g) = all 0 grids
 
-11609
+A related pattern:
+similar to a lot of things in group theory/cycle finding, keep applying f, you get either identity or a cycle 
 
-11621
-
-11666
-
-11690
+There are at most 2^9 possible choices, so we can find the answer quickly!
+i.e, if there is a cycle, v can be infinite
+otherwise, max i is # of f before entering cycle, in those cases, v = i
 
 --
 11699
 Complete search
 
 --
-
-11701
-
-11714
-
-11723
-
-11733
-
-11770
-
-11780

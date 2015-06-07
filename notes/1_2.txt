@@ -46,7 +46,20 @@ reduction to insertion sort?
 Write a program to find pairs of numbers that satisfy this condition.
 ------
 146:
-Your program will accept a sequence of no more than 50 lower case letters (which may contain repeated characters) and print the successor code if one exists or the message `No Successor' if the given code is the last in the sequence for that set of characters. 
+related problem:
++1 to a number
+only 2 letter case
+number and digits problem: basically, we need to find a bucket of size 2, and swap the last 2 letters
+
+FindNext(i)
+	if(LastInBucket(i + 1)) => this can be calc linear time, i.e., reversely sorted
+		pick a new char after the current one
+		sort the remaining , since it has to be first
+	else
+		FindNext(i+ 1)
+
+Note that this pattern can reapplied based on reduction
+
 
 ------
 151:

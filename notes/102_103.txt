@@ -1,11 +1,5 @@
-10218
-
-simple probability 
-
-----
-10238
-
-DP
+10264
+it is neighbor if 1 bit is off!, can reuse this solution, bit flip with not => ~
 
 ---
 10276

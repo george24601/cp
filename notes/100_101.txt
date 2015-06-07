@@ -1,24 +1,37 @@
-10066
-
-longest common subsequence (not necessarily continuous)
-
-n^2 DP
 -----
-10036
+10000
+Topo sort & reduction
 
-DP: insight, more "powerful" problem
 ------
 10004
 DFS
 
 -----
-10000
-Topo sort & reduction
+10034
+Invent new problem: what if input size is 1B, 10B?
+=> bucket approach, mod = size of bucket
+
+-----
+10036
+DP: insight, more "powerful" problem
+
+
+----
+10066
+
+longest common subsequence (not necessarily continuous)
+
+n^2 DP
 
 ---
 10107
+solve it differently: what if input is 10 mil?
+so we need to the min of first half and max of second half, and need to maintain the state of the whole since the collection is subject to change
 
-try not to use n^2 algorithm
+related problem:
+1. max/min value?
+2. max/min 10 values?
+3. max/min 25%?
 
 ---
 10110
@@ -44,15 +57,9 @@ combinatorics
 
 interesting DP n^2
 
----
-10139
-
 --
 10154
 LIS insight: how to reduction, which option to use? what is the search direction?
-
----
-10165
 
 ---
 10177 (!!!)

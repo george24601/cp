@@ -1,10 +1,6 @@
-10803
-
---
-10819
-
---
-10827
+----
+10855
+a related problem: extend KMP to 2D? apparently its possible although not trivial
 
 ---
 10866
@@ -15,32 +11,18 @@ needs insight
 math
 
 --
-10874
-
---
-10879
-
---
-
-10895
-
---
 10900
 probability
-
----
-10904
-nice coding test: how to handle cycle?
 
 --
 10904
 nice coding problem: handle aliases and cycles
 
---
-10928
-
---
-10940
+---
+10920
+Related problems
+We can do a reduction to digits & number problems => i.e., each round = one new digit, position within the round = which digit to use in the position
+i.e., digits and nubmer is a classic recursion pattern that we can do reduction upon!
 
 --
 10997(!!!)
