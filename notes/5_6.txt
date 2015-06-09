@@ -1,5 +1,6 @@
 514
-given the array [1...n], can we generate the target array [a1...an] by reversing a subarray of target array. the catch is, if you reverse sub array i..j, then the next subarry to reverse should happen after j
+original problem: all in the sub array got reversed
+invent a new problem: reorder the array to the given order with a stack. Can use original index for fast retrival
 
 -----
 531

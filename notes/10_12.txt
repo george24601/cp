@@ -1,6 +1,6 @@
 ---
-1047(!!!)
-coding practice
+1062
+max # stack = intervals betwee letters, remove those letters, and iteration on it
 
 ---
 1185
@@ -12,6 +12,16 @@ coding practice
 
 Once a member in a group is a suspect, all members in the group are suspects.
 However, they find that it is not easy to identify all the suspects when a student is recognized as a suspect. Your job is to write a program which finds all the suspects.
+
+---
+1203
+Unknown: top K results returned by all queries
+similar problem: the clock-ticking in Dijkstra. Can we reuse result/method?
+Dijkstra uses a heap/greedy to find the next candicate <=> reduction into our problem
+
+reuse method: result: notice in each case, we do not update all values in the heap,i.e., based on insight/condition, we only update the newly inserted to simulate the clock tick
+
+
 ----
 1213
 
