@@ -15,6 +15,17 @@ Invent new problem: what if input size is 1B, 10B?
 10036
 DP: insight, more "powerful" problem
 
+-------
+10038
+can you invent new problems based on that?
+
+What if input is 3b instead of 3k,i.e., not wise to fit the set into memory?
+
+bloom filter
+
+hyperloglog
+
+divide and conquer: number % size-of-bucket. Each bucket will do exact in-memory count. Return true only if all buckets return true
 
 ----
 10066
