@@ -1,65 +1,10 @@
-10400
-
-----
-10401
-
---
-10404
-
---
-10405
-
---
-10408
-
---
-10427
-
---
-10446
-
---
-10449
-
---
-10450
-
---
-10453
-
---
-10460
-
---
-10465
-
---
-10474
-
---
-10483
-
---
-10491
-
---
-10503
-
---
 10507
+Condition:
+if all neighbors are awakes, then this node is awake as well, i.e., we care only about connectivity. 
+How to solve similar problems: 
+1. graph traversal
+2. union-find
 
---
-10528
-
---
-10534
-
---
-10543
-
---
-10567
-
---
-10576
-
+So solve it differently:
+1. similar to BFS, each round, check if all neighbors are awake, if so, then mark this as awake. We also keep track of if a node is on or not
+2. each round, just union, if all its neighbors are active. At the end of each round, scan through all its roots to find the cluster size
