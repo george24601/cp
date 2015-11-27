@@ -13,6 +13,7 @@
 #include <stack>
 #include <queue>
 #include <bitset>
+#include <assert.h>
 using namespace std;
 
 typedef unsigned long long UL;
@@ -40,14 +41,11 @@ typedef vector<vector<int> > SAL;
  in the end, find all distinct parents
  */
 
-#define MaxSize 1000010
+#define MaxSize 2000010
 
-map<LL,LL> parent;
+int parent[MaxSize];
 LL Find(LL a) {
-	if (!parent.count(a)){
-		parent[a] = a;
-	}
-
+	//assumption: parent[a] is set to a on init
 	if (parent[a] != a)
 		parent[a] = Find(parent[a]);
 
@@ -86,11 +84,20 @@ void sieve(){
 int C;
 LL A, B, P;
 
+int const HalfSize = 1000000;
+
+int toWithinRange(LL large){
+	if (large <= HalfSize)
+		return large;
+	else
+		return HalfSize + large - A + 1;
+}
+
 int process(){
 
-	//cout << A << " " << B << endl;
+	//cout << A << " " << B << " " << P << endl;
 
-	for(LL num = P; num < MaxSize && num <= B; num++){
+	for(LL num = P; num <= B - A; num++){
 
 		if (!prime[num])
 			continue;
@@ -99,9 +106,11 @@ int process(){
 
 		while(num * factor <= B){
 
-//			cout << num << " " << factor << endl;
+	/*
+			cout << num << " " << factor << endl;
+	*/
 
-			Union(num* factor, num);
+			Union(toWithinRange(num* factor), num);
 
 			factor++;
 		}
@@ -111,7 +120,7 @@ int process(){
 
 	for(LL num = A; num <= B; num++){
 
-		distinctParents.insert(Find(num));
+		distinctParents.insert(Find(toWithinRange(num)));
 
 		//cout << num << " " << Find(num) << endl;
 	}
@@ -120,13 +129,14 @@ int process(){
 }
 
 void reset(){
-	parent.clear();
+	LP(i, 0, MaxSize)
+		parent[i] = i;
 }
 
 int main() {
-	freopen("/Users/georgeli/Downloads/B-small-practice.in", "r", stdin);
+	freopen("/Users/georgeli/Downloads/B-large-practice.in", "r", stdin);
 	//freopen("/Users/georgeli/B_1.in", "r", stdin);
-	//freopen("/Users/georgeli/B_small.out", "w", stdout);
+	freopen("/Users/georgeli/B_large.out", "w", stdout);
 
 	sieve();
 
