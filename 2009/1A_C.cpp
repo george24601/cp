@@ -32,13 +32,14 @@ typedef vector<vector<int> > SAL;
 
  Pr(collected, newCollect) =  (C-collected choose newCollect) * (collected choose N-newCollect)  /(C choose N)
 
- E(collected + newCollect) = Pr(collected+newCollect-1, 1) * (E(collected + newCollect -1) + 1)
+ E(collected + newCollect) = 1 +
+ Pr(collected + newCollect, 0) * E(collected + newCollect) +
+ Pr(collected+newCollect-1, 1) * (E(collected + newCollect -1) +
+ .....
  */
 
 int T, N, C;
 int const MaxSize = 40;
-
-double pNM[MaxSize][MaxSize + 1];
 
 double eN[MaxSize + 1];
 
@@ -54,84 +55,48 @@ void initChoose() {
 }
 
 LL choose(int top, int bottom) {
+
+	if (top < 0 || bottom < 0 || bottom > top)
+		return 0;
+
 	assert(top >= bottom);
 
 	if (chooseN[top][bottom])
 		return chooseN[top][bottom];
 
-	LL calced = choose(top - 1, bottom - 1) + choose(top - 1, bottom);
-
-	chooseN[top][bottom] = calced;
-	return chooseN[top][bottom];
+	return chooseN[top][bottom] = choose(top - 1, bottom - 1)
+			+ choose(top - 1, bottom);
 }
 
-void calcPnm() {
-	initChoose();
-
-	LP(i, 0, C)
-		memset(pNM, 0.0, sizeof(pNM));
-
-	pNM[0][N] = 1;
-
-	int chooseCN =  choose(C, N);
-
-	assert(choose(2,1) == 2);
-	assert(choose(2,2) == 1);
-
-	assert(choose(2,0) == 1);
-
-	LP(collected, N, C)
-	{
-		int maxPossibleNewCollect = min(C - collected, N);
-
-		LPE(newCollect, 1, maxPossibleNewCollect)
-		{
-			int newChosen = choose(C - collected, newCollect);
-			int oldChosen = choose(collected, N - newCollect);
-
-			pNM[collected][newCollect] = newChosen * oldChosen/(chooseCN * 1.0);
-///			printf("%d %d %lf\n", collected, newCollect, pNM[collected][newCollect]);
-///			printf("%d %d %d\n", newChosen, oldChosen, chooseCN);
-		}
-	}
+//having collected cards, what is the prob to get newFromPack from a new pack
+//hypergeometric distribution
+double Pr(int collected, int newFromPack){
+		return (double) choose(C - collected, newFromPack) * choose(collected, N - newFromPack) / (double) choose(C, N);
 }
 
-double calcEx(int collected) {
-	assert(collected >= 0 && collected <= C);
+void calcEx() {
+	eN[0] = 0;
 
-	if (collected == 0)
-		return 0.0;
+	for (int collected = C -1; collected >= 0; collected--){
+		int remainNew = C - collected;
 
-	if (collected == N)
-		return 1.0;
+		double total = 1; //open 1 new pack
 
-	if (eN[collected])
-		return eN[collected];
+		int maxPossible = min(N, remainNew);
 
-	int maxToCollectThisRound = min(collected, N);
-
-	double curEx =0.0;
-
-	LPE(thisRound, 1, maxToCollectThisRound){ //since we answer state on collected something already, we skip 0 case
-		int lastRound = collected - thisRound;
-
-		if (lastRound >= N){
-			//printf("last, this: %d %d\n", lastRound, thisRound);
-
-			curEx += pNM[lastRound][thisRound] * calcEx(lastRound);
+		LPE(newFromPack, 1, maxPossible){
+			total += Pr(collected, newFromPack) * eN[remainNew - newFromPack];
 		}
+
+		double prob = 1 - Pr(collected, 0); //0 new card collected from the pack
+		eN[remainNew] = total / prob;
 	}
-
-	curEx++;//open this pack
-
-	eN[collected] = curEx;
-	return eN[collected];
 }
 
 int main() {
-	//freopen("/Users/georgeli/Downloads/C-large-practice.in", "r", stdin);
-	freopen("/Users/georgeli/C_1.in", "r", stdin);
-	//freopen("/Users/georgeli/C_large.out", "w", stdout);
+	freopen("/Users/georgeli/Downloads/C-large-practice.in", "r", stdin);
+	//freopen("/Users/georgeli/C_1.in", "r", stdin);
+	freopen("/Users/georgeli/C_large.out", "w", stdout);
 
 	scanf("%d", &T);
 
@@ -140,15 +105,11 @@ int main() {
 		scanf("%d %d", &C, &N);
 
 		memset(eN, 0.0, sizeof(eN));
+		initChoose();
 
-		printf("calcPNM\n");
-		calcPnm();
+		calcEx();
 
-		printf("calcEx\n");
-
-		double ans = calcEx(C);
-
-		printf("Case #%d: %lf\n", cn, ans);
+		printf("Case #%d: %lf\n", cn, eN[C]);
 	}
 
 	return 0;
