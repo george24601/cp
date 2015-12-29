@@ -1,0 +1,37 @@
+File Fix-it
+--------
+based on existing input, create a file tree
+
+insert into file tree, and give back # of new folder created
+
+Picking Up Chicks
+--------
+1 case: simple calculation
+2 case: if catches up, same as 1 case, otherwise, calculate the the latter one separately
+
+as a rest, start with rightmost chick, (assuming we move from left to right)
+if it can reach it, we dont have to move this chick,
+otherwise, we must let k chicks to pass through, i.e., in effect, we remove this chick from the road
+
+and now we can keep going from right to left, until we find all k chciks, or k-1 if leftmost is good enough
+
+
+Your Rank is Pure
+-------
+By definition, n has to be included
+
+simple case: n =2, itself
+
+n = 3, (2,3) or 3
+
+size of the subset has to be in the set as well (except single element case). Otherwise, the loop will stop before 1
+
+and for this number, the size of the subset, sorted, but ending at that number has to be in the set as well => we have a recursive pattern here!
+
+the subset size can be anywhere between 1 to n - 1, so possible scenarios
+
+numCases(n) is the sum of
+
+1. size = 1, itself
+2. for size = 2 to n - 1
+      += numCases(size)
