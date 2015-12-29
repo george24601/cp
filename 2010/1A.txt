@@ -1,0 +1,65 @@
+Rotate
+----
+Code up rotate routine, and then detect win conditions for horionzal, vertical, and diagonal
+
+Make it smooth
+----
+1. If an array is smooth, all subarrays must be smooth
+2. However, reverse can not be said to be true, because the ends of two smooth subarries may have too huge difference => we need to include
+the actual number as well!
+3. you will never delete and then insert, or vice versa, never insert and update, never update and delete, never update and update, because
+compress them into 1 step can only save cost. i.e., if we have a list of final ops, the order of applying them does not matter, because
+there is no dependency between steps
+4. Swap unknown and known: suppose we have a smooth subarray from 1 to n, with end value v 
+
+to make i+1 smooth with end value v1
+change the value to match smoothness range of subarray [1, i] 
+insert into prior and (potentiall) change value
+delete i+1 and insert value and potentially change
+
+
+we will pick one with min cost
+
+total cost = N * 255
+
+speical case i = 1, only deletion and insertion vs update case
+
+for i = 2 to N
+  for tailVal = 0 to 255 =>
+    for newTailVal = 0 to 255 =>
+        cost[i][newTailVal] = cost(a[i], newTailVal, tailVal)
+      
+
+option 2: for each val2 within the smooth range of val, 
+      either change, a[i] to v2, 
+      or delete and insert (speical case, no need to insert)
+
+option3: for each val2 outside the smooth range of val, 
+      calculate potential # of inserts with the update value,
+      or just delete and plain insert
+
+i.e., need to precomupte cost(from, to, left value), to know the cost
+
+if (to within LV of val)
+  either plain change
+  or delete and insert
+
+if (to outside LV of val)
+  insert # of M's to x bring into range,then reduce to previous case. Notice we will always use full M to reduce update cost as much as we
+can, and it doesnt impact delete and insert cost anyway
+              
+
+Number Game      
+-------
+Each step is similar to gcd calculation
+
+Consider the special case: where A,B are co-prime
+Consider the simple case, and try to reduce to that case,
+1. B< A < 2 * B,
+2. 2 * B < A
+
+
+
+
+
+
