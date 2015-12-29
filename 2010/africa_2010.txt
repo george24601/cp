@@ -1,0 +1,36 @@
+Odd Man Out
+-------
+a simple map<int, int> would do, find the one with count = 1
+
+
+Get to Work
+------
+for each town other than T, start with larget P, until sum of Ps > # of employees at that town, otherwise impossible
+
+Qualification Round
+------
+Analogy: put P items into C sets, s.t., sum of these sets are as close as possible
+
+Solve a simpler analogous problem:
+Consier C = 2 case. This is the partition-optimziation problem, which is NP-hard
+
+Reduction of subset sum to partition:
+-----
+add Total+Target, 2*Total-target, as element of the original set
+
+if there exists answer, then we can find two equal subsets
+
+if we can find two equal subsets, then there exists an answer
+-----
+
+C> 2, then it becomes mult-way partition problem. This means the brute force reduction can not work!
+
+small input: repeat the simple insight until unable to. 
+
+However, proving it is hard.
+
+Polygraph
+------
+General idea is to keep finding inconsistency and update fact until unable to do.
+
+reduce the whole system into a linear equation, with mod marking true or false.
