@@ -1,0 +1,35 @@
+Rope Intranet
+------
+create a map, sort by A
+
+for i = 1 to n
+  for j = i + 1 to n
+    if target[A[i]] < target[B[i]]
+      total count++;
+
+
+Load Testing
+------
+unknown: # of tests
+
+Find number a, s.t., test(a) is good but test(C*a) is bad, we know a is within [L, P)
+
+to be precise, L<= a <= floor(P/C)
+
+suppose we run test(num) already
+
+if result is good, then we need to run test(C*num) to verify
+if result is bad, then we lower a's upper bound to floor(num/C)(possibly -1)
+i.e.,
+
+worst(low, high)
+  stop when (low == high)
+  run test on num, //num is chosen by an optimal strategy
+  becomes max of worst(num + 1, high), and worst(low, num/C)
+
+Insight: the only thing affecting our search cost is the size of range, i.e., worse(1, 10k) is same as worse(10k+1, 20k)
+
+as an optimal stragety the high - num -1 = num/C - low, i.e., we have a formula for num for each high/low
+
+Making Chess Boards
+-------
