@@ -6,8 +6,9 @@ Insight:
 
   2. If base is fixed, then the first digit should be 1, and second 0, and third 2..
 
-
 Pseudo code
+
+    special case: only 1 digit
 
     base = the number of unique digits
     create a map
@@ -20,6 +21,7 @@ Pseudo code
       digit  = map[char]
 
     translate digits into the base
+
 
 
 Center of Mass
