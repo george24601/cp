@@ -33,3 +33,50 @@ as an optimal stragety the high - num -1 = num/C - low, i.e., we have a formula 
 
 Making Chess Boards
 -------
+Try reducing to 1D case => we will lose the incomplete cut case, but let us try solving a related problem first 
+
+So this problem turned into 
+
+Take a row of black and white cells, cut all alternating patterns, from the longest possible.
+
+major problem to solve: after taking out the biggest line segment, some state will be changed. 
+
+Note that it is apparent, we can not do recomputation on EACH deletion, that is too expensive, even in 1D case. So we have to do current
+state + delta approach. But due to the linearity of the pattern, we dont have to worry about overlap, i.e., it will be included as part of
+1-D solution anyway.
+
+Now back to the 2D case
+
+1. We need to generate a state of all possible max cuts, anchors at top-left corner
+2. We need to compute delta based on a cut, what could be affected would be, those TL within the cut, or BR within the cut. Note that
+because we are taking largest, we know that the range of TL is bound the cut size.
+3. given TL, and the cut, we can know for sure what the new size would be
+
+But to compute the initial state, brute force will not do either => n^2 * logn max
+
+Problem: compute potential max cut for each index
+Instead of computing squares, we can compute rectangle, i.e., solve a more general problem, problem, with rectangle, you can not define
+which one is longest, so you have to calculate sqaure.
+
+i.e., start from bottom, populate one by one, each point calculation takes row count + col count. => overall cost will be sum of all rows and cols, i.e. M^2 + N^2
+
+For each cut, the # of entries to update is linear with the size cut, i.e., overall cost is M*N, since we cut M*N overall
+
+Pseudocode
+
+calculate the max sqaure TL at (i,j), for all i,j
+
+while(board has piece){
+  sort the combo (size, i, j) collection by size (or -size for implementation's sake)
+
+  take the subboard with max size. boardsize -= size 
+
+  based on, (size, i, j), we can update max 4 * size * size entries of their sizes, each can be infered at constant time, due the nature of
+squre
+}
+
+Here we have a problem, as per disccusion, we can not go through the whole collection, this means copying over the old data. but after we
+sort it, we lost the index, i.e., handle!
+
+So a plain vector/array will not cut it, if only we have a tree-like strcture that allows quick update in place. A BST would do, but notice
+we care about the max size anyway, we can just use a heap, which supports in place update anyway!

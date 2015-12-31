@@ -4,6 +4,8 @@ based on existing input, create a file tree
 
 insert into file tree, and give back # of new folder created
 
+may use a map<string, set<string>> to represent the file tree, final answer would be the size of the map
+
 Picking Up Chicks
 --------
 1 case: simple calculation
