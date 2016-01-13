@@ -62,29 +62,11 @@ int singleCost(int from, int to) {
 	return min(D + I, abs(to - from));
 }
 
-LL increaseCost(int fromV, int toV, int oldN) {
-	int smoothFloor = max(0, toV - M);
-	int numInserts = (smoothFloor - fromV) / M;
+LL insertCost(int fromV, int toV, int oldN) {
+	int diff = abs(fromV - toV);
+	int numInserts = (diff - 1) / M;
 
-	if ((smoothFloor - fromV) % M)
-		numInserts++;
-
-	LL thisCost = numInserts * I + singleCost(oldN, toV);
-
-	return thisCost;
-}
-
-LL decreaseCost(int fromV, int toV, int oldN) {
-
-	int smoothCeil = min(toV + M, MaxV);
-	int numInserts = (fromV - smoothCeil) / M;
-
-	if ((fromV - smoothCeil) % M)
-		numInserts++;
-
-	LL thisCost = numInserts * I + singleCost(oldN, toV);
-
-	return thisCost;
+	return numInserts * I + singleCost(oldN, toV);
 }
 
 LL ccost(int i, int v) {
@@ -94,14 +76,15 @@ LL ccost(int i, int v) {
 	if (cost[i][v] >= 0)
 		return cost[i][v];
 
-	LL minVal = INF;
+	LL minVal = ccost(i - 1, v) + D;
+
 	int smoothFloor = max(0, v - M);
 
 	if (M > 0) {
 		LP(fromV, 0, smoothFloor)
 		{
 			minVal = min(minVal,
-					ccost(i - 1, fromV) + increaseCost(fromV, v, nums[i]));
+					ccost(i - 1, fromV) + insertCost(fromV, v, nums[i]));
 		}
 	}
 
@@ -116,7 +99,7 @@ LL ccost(int i, int v) {
 		LPE(fromV, smoothCeil + 1, MaxV)
 		{
 			minVal = min(minVal,
-					ccost(i - 1, fromV) + decreaseCost(fromV, v, nums[i]));
+					ccost(i - 1, fromV) + insertCost(fromV, v, nums[i]));
 		}
 	}
 
@@ -133,15 +116,15 @@ void init() {
 int main() {
 
 	//freopen("/Users/georgeli/B_1.in", "r", stdin);
-freopen("/Users/georgeli/Downloads/B-small-practice.in", "r", stdin);
-freopen("/Users/georgeli/B_small.out", "w", stdout);
+	freopen("/Users/georgeli/Downloads/B-small-practice.in", "r", stdin);
+	freopen("/Users/georgeli/B_small.out", "w", stdout);
 
 	scanf("%d", &T);
 
 	LPE(cn, 1, T)
 	{
 		scanf("%d %d %d %d", &D, &I, &M, &N);
-	//	printf("%d %d %d %d\n", D, I, M, N);
+		//	printf("%d %d %d %d\n", D, I, M, N);
 
 		LPE(i,1, N)
 		{
@@ -152,7 +135,6 @@ freopen("/Users/georgeli/B_small.out", "w", stdout);
 		LL minCost = INF;
 
 		init();
-
 
 		LPE(finalV, 0, MaxV)
 			minCost = min(minCost, ccost(N, finalV));

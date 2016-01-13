@@ -1,0 +1,45 @@
+FreeCell stats
+--------
+
+Assume I won WD games today
+
+D * PD = WD
+G * PG = WG
+D < N
+G >= D
+Note WG >= WD,i.e., G * PG >= D * PD
+
+Consider when D < N < G, because we need only ONE solution, we will push G to limit
+i.e., as long as N * PD > 1, we can extend G s.t., G * PG >= D * PD, i.e., 
+
+Speicial case: PG = 0 or 100
+
+So conditions: when PG = 0, PD must be 0
+when PG = 100, PD must be 100
+when PG in between: N * PD > 1 (can not be =)
+
+The killer word
+--------
+insight: 
+we just care the set of letters in each word
+
+max negative point = index  - size of set
+
+if there is only 1 choice of word, the game ends immediately
+
+when we pick the first letter,
+either char exists or not
+if it exists, we put them into bucket 0, with score 0
+if it does not, we have another bucket, with score 1
+
+for each set, we know it is hit/miss pattern
+
+claim: for two words, the moments we know they have different hit/miss patttern, we know they are different
+
+i.e., we can build a tree of patterns, a suffix-like tree, with each score given, in then end, check score on all tree nodes. We know the
+tree has at most 10k * 2 nodes, since each side has only 2 choices, and we can force the path compression, and total entries at each
+level-index is only 10k, with 26 levels max
+
+Pseudominion
+-------
+
