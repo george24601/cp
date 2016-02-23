@@ -28,19 +28,20 @@ typedef vector<vector<int> > SAL;
 #define Ep 1e-9
 
 /*
-string matching: similar to KMP?
-E(targetI, len) =
-totalE = 0;
-	for each letter in keyboard {
-		Pr(letter) * (nextI(targetI, letter), len--)
-	}
+ string matching: similar to KMP?
+ E(targetI, len) =
+ totalE = 0;
+ for each letter in keyboard {
+ Pr(letter) * (nextI(targetI, letter), len--)
+ }
 
 
  */
 int K, wLen, S;
-int keyCount [26];
+int keyCount[26];
 char W[110];
 int T[110];
+double E_cache[110][110];
 
 ///Borrowed from KMP
 void BuildT() {
@@ -50,7 +51,7 @@ void BuildT() {
 	int i = 2;
 	int tI = 0;
 
-	while (i < wLen) {
+	while (i <= wLen) {
 		//if(i >= 6)
 		//	printf("%d %d %d\n", i, tI, T[tI]);
 
@@ -72,19 +73,18 @@ void BuildT() {
 
 }
 
-
-double pr(int i){
-	return (double)keyCount[i] / (double) K;
+double pr(int i) {
+	return (double) keyCount[i] / (double) K;
 }
 
 //TODO: probably cache it
-double fallback(int targetI, int thisChar){
-	int mLen = targetI;//since we start index at 0
+int fallback(int targetI, int thisChar) {
+	int mLen = targetI;			//since we start index at 0
 
-	while(mLen){
+	while (mLen) {
 		mLen = T[mLen];
 
-		if(W[mLen] - 'A' == thisChar){
+		if (W[mLen] - 'A' == thisChar) {
 			return mLen + 1;
 		}
 	}
@@ -92,58 +92,91 @@ double fallback(int targetI, int thisChar){
 	return mLen;
 }
 
-double E(int targetI, int len){
-	if(len == 0)
+double E(int targetI, int len) {
+	if (len == 0)
 		return 0;
 
+	if (E_cache[targetI][len] >= 0)
+		return E_cache[targetI][len];
+
 	double prNextMatch = pr(W[targetI] - 'A');
-	double matchExp = targetI == wLen -1 ? prNextMatch * (1 + E(0, len-1))  :  prNextMatch * E(targetI+1, len-1);
+	double matchExp =
+			targetI == wLen - 1 ?
+					prNextMatch * (1 + E(T[wLen], len - 1)) :
+					prNextMatch * E(targetI + 1, len - 1);
 
 	double unmatchedE = 0;
 
-	LP(i, 0, 26){
+	LP(i, 0, 26)
+	{
 		if (W[targetI] - 'A' == i)
 			continue; //matching letter: handled this case already
 
 		unmatchedE += pr(i) * E(fallback(targetI, i), len - 1);
 	}
 
-	return matchExp + unmatchedE;
+	return E_cache[targetI][len] = matchExp + unmatchedE;
+}
+
+int calcMax() {
+	LP(i, 0, wLen)
+	{
+		if (keyCount[W[i] - 'A'] == 0)
+			return 0;
+	}
+
+	int remainingS = S;
+	int maxN = 0;
+
+	while (remainingS >= wLen) {
+
+		maxN++;
+
+		remainingS -= wLen;
+		remainingS += T[wLen];
+	}
+
+	return maxN;
 }
 
 int main() {
-	freopen("/Users/georgeli/B_1.in", "r", stdin);
-	//freopen("/Users/georgeli/Downloads/A-small-practice.in", "r", stdin);
-	//freopen("/Users/georgeli/A_small.out", "w", stdout);
+	//freopen("/Users/georgeli/B_1.in", "r", stdin);
+	freopen("/Users/georgeli/Downloads/B-large-practice.in", "r", stdin);
+	freopen("/Users/georgeli/B_large.out", "w", stdout);
 
 	int T;
 
 	scanf("%d", &T);
-	printf("%d\n", T);
+	//printf("%d\n", T);
 
-	LPE(cn, 1, T){
+	LPE(cn, 1, T)
+	{
 		memset(keyCount, 0, sizeof(keyCount));
 
 		scanf("%d %d %d", &K, &wLen, &S);
-		printf("%d %d %d\n", K, wLen, S);
+	//	printf("%d %d %d\n", K, wLen, S);
 
-		char keys [100];
+		LP(i, 0, wLen)
+			memset(E_cache[i], -1, sizeof(E_cache[i]));
+
+		char keys[100];
 		scanf("%s", keys);
-		printf("%s\n", keys);
+	//	printf("%s\n", keys);
 
 		LP(i,0, K)
-		 keyCount[keys[i] - 'A']++;
+			keyCount[keys[i] - 'A']++;
 
 		scanf("%s", W);
-		printf("%s\n", W);
+	//	printf("%s\n", W);
 
 		BuildT();
 
-		printf("TBuild!\n");
-
+		int maxB = calcMax();
 		double finalE = E(0, S);
 
-		printf("Case #%d: %.6lf\n", cn, finalE);
+		//printf("%d %.6lf\n", maxB, finalE);
+
+		printf("Case #%d: %.6lf\n", cn, maxB - finalE);
 	}
 
 	return 0;
