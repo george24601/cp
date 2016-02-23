@@ -21,24 +21,34 @@ when PG in between: N * PD > 1 (can not be =)
 The killer word
 --------
 insight: 
-we just care the set of letters in each word
+order of letters doesnt matter, but we still need to keep track of occurance
+wlgo, consider the order a-z
 
-max negative point = index  - size of set
+biggest(set) = max(biggest(a,with occurenace na times), biggest(no occurance in a))
 
-if there is only 1 choice of word, the game ends immediately
+of course, at least step, we can not pick single na occurances, otherwise we are done!
 
-when we pick the first letter,
-either char exists or not
-if it exists, we put them into bucket 0, with score 0
-if it does not, we have another bucket, with score 1
+---Consier small case
+as pre-computation, need to know how many times it appears for each letter
 
-for each set, we know it is hit/miss pattern
+for each word, compute the the score if it is chosen
 
-claim: for two words, the moments we know they have different hit/miss patttern, we know they are different
+  for each letter
+    if letter in word
+      keep ones with same # of occurance
+      done if only 1 left
+    else
+      score ++
+      cross ones that has letter in word
+      
 
-i.e., we can build a tree of patterns, a suffix-like tree, with each score given, in then end, check score on all tree nodes. We know the
-tree has at most 10k * 2 nodes, since each side has only 2 choices, and we can force the path compression, and total entries at each
-level-index is only 10k, with 26 levels max
+overall is 26 * n^2, too slow for large case, if only the look up could be faster...
+------
+  
+   
+  
+
+
 
 Pseudominion
 -------
