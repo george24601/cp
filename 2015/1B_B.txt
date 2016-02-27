@@ -1,0 +1,15 @@
+1. consider a single row case
+
+one problem is building ground up get us stuck => where to put next
+then from top down => we know the max, then at each step, we should try to reduce as much as we can
+
+consider a row case
+reduce all 2 neighbors -> 1 neighbors -> 0 neighbor
+
+Q: what is the max # one can fit with at most 1 neighbors?
+border must be met anyway, so it becomes
+1101101
+11011011
+110110101
+11011011011 -> back to the beginning!
+101010101 => no neighbor case, anthything between has only 1 index
