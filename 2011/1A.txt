@@ -21,25 +21,21 @@ when PG in between: N * PD > 1 (can not be =)
 The killer word
 --------
 insight: 
-order of letters doesnt matter, but we still need to keep track of occurance
+order of letters does matter, but we still need to keep track of occurance
 wlgo, consider the order a-z
-
-biggest(set) = max(biggest(a,with occurenace na times), biggest(no occurance in a))
 
 of course, at least step, we can not pick single na occurances, otherwise we are done!
 
----Consier small case
-as pre-computation, need to know how many times it appears for each letter
+---Consider small case
 
 for each word, compute the the score if it is chosen
 
-  for each letter
-    if letter in word
-      keep ones with same # of occurance
-      done if only 1 left
-    else
-      score ++
-      cross ones that has letter in word
+  for each letter in the seqence
+    for each remaining word
+        consistent with same pattern occurance, keep, and we know we need to keep guessing, 
+        no longer consistent with that pattern, we need to score++, because we know we had to guess the last one! Also cross that one!
+
+Assume first one is a hit
       
 
 overall is 26 * n^2, too slow for large case, if only the look up could be faster...
