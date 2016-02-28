@@ -1,0 +1,87 @@
+I/O Error
+----
+Ad hoc
+
+Dreary Design
+----
+K <= 2 * 10^9 
+V <= 1000
+
+how many distince bland colors are there, WLOG, consider set in order, then we worry about permutation
+
+1. bland color, all 3 different 
+0 -> 1 => 0 choices
+0 -> 2 => 1 choices
+0 -> 3 => 2 choices 
+...
+0 -> v => v - 1 choices
+
+for 0, it is (0 + v -1) * v / 2, same for all start <= k - v
+
+when start >= k - v + 1
+
+start -> start + 1 => 0 choices
+start -> start + 2 => 1 choices
+start -> k => k - start - 1 choices
+
+this part is 
+(0 + k - start - 1) * k - start / 2
+
+for all start between k- v + 1 to start
+
+-----
+this sum * 6 for combination
+
+2. bland color, 2 different
+0 -> 1 to v
+1 -> 2 to v + 1
+....
+k-v -> k -v + 1 to k 
+-----this part v * (k-v + 1)
+k - v + 1 -> k
+
+k - v + 2 -> k
+....
+k - 1 -> k
+
+---this part (k - 1 + k-v +1) * (v -1 ) /2
+
+this sum * 2 (which one is dup) * 3 (choice to insert different one)
+
+3. bland color all same
+total = K + 1
+
+n(low, high) = num of distince pairs of (a,b), where a < b, a >= low and b <= high
+
+Power levels
+--------
+if we know a number has D digits (D < 100000), what is the highest number N s.t. F(9000, N) <= 10^(D-1)
+
+speicial case: E >= N - 1 
+
+1. can binary search the N, and calculate the log
+
+
+Googlander
+--------
+brute force keeping track of visited too huge
+
+consider the case of only up and right
+i.e., use turn right move only once
+use turn right move 0  times => to top
+only once => top right, but many different ways
+find a nice bound recursive case: sprial-ish
+
+never turn right => 1 possible choice
+R1(r, c) = r //turn right at which row?
+
+turn right twice
+R2(r,c) = 
+if first is turn right, then in this case total is 1, i..e, hit the end!
+if first is go up, anything in r', c' is fair game, and only 1 way!
+after that, it becomes R2(r-r' + 1, c' - 1), where r' from 2 to r, c' from 2 to c
+
+when R or C = 1, there is only one way : go ahead till the end!
+
+
+
