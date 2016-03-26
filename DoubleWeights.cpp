@@ -37,7 +37,7 @@ typedef vector<vector<int> > SAL;
  check all on ways(N, n), add them all
  */
 class DoubleWeights{
-	int tw [20][20][180];
+	int tw [21][21][180];
 	int n;
 
 
@@ -56,25 +56,26 @@ public :
 		tw[0][0][0] = 0;
 
 		LPE(pathLen, 1, n){
-			LP(from, 1, n){
-				LP(to, 1, n){
+			LP(from, 0, n){
+				LP(to, 0, n){
 					if (weight1[from][to] == '.')
 						continue; //no path
 
 					int el1 = weight1[from][to]  - '0';
 					int el2 = weight2[from][to]  - '0';
 
-					LP(fromW1, 1, n * 9){
+					LP(fromW1, 0, n * 9){
 						if (tw[pathLen - 1][from][fromW1] < 0)
 							continue;
 
-						int newW2 = tw[pathLen - 1][from][fromW1] + el2;
+						int newToW2 = tw[pathLen - 1][from][fromW1] + el2;
 
 						int oldToW2 = tw[pathLen - 1][to][fromW1 + el1];
 
-						if(oldToW2 < 0 || oldToW2 > newW2){
-							tw[pathLen][to][fromW1 + el1] = newW2;
-						}
+						if(oldToW2 < 0 || oldToW2 > newToW2)
+							tw[pathLen][to][fromW1 + el1] = newToW2;
+						else
+							tw[pathLen][to][fromW1 + el1] = oldToW2;
 					}
 				}
 			}
@@ -85,7 +86,7 @@ public :
 			if (tw[n][1][w1] <= 0)
 				continue;
 
-			minW = min(minW, tw[n][1][w1]);
+			minW = min(minW, tw[n][1][w1] * w1);
 		}
 
 		return INF == minW ? -1 : minW;
