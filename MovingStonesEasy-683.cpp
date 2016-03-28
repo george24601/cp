@@ -40,7 +40,7 @@ typedef vector<vector<int> > SAL;
 class MoveStonesEasy{
 public:
 	int get(vector<int> a, vector<int> b){
-		int n = a.size;
+		int n = a.size();
 		int total = 0;
 
 		LP(i, 0, n - 1){
@@ -52,8 +52,9 @@ public:
 				total += delta;
 			}else{
 				b[i + 1] -= delta;
-				total += delta;
+				total -= delta;
 			}
+			//cout << total << endl;
 		}
 
 		return (a[n - 1] == b[n - 1]) ? total : -1;
@@ -61,5 +62,16 @@ public:
 };
 
 int main() {
+	static const int aA [] =  {3,10,0,4,0,0,0,1,0};
+	static const int aB [] = {5,5,0,7,0,0,0,0,1};
+
+	MoveStonesEasy obj;
+
+	vector<int> a (aA, aA + sizeof(aA) / sizeof(aA[0]) );
+
+	vector<int> b (aB, aB + sizeof(aB) / sizeof(aB[0]) );
+
+	cout << obj.get(a, b) << endl;
+
 	return 0;
 }
