@@ -33,10 +33,6 @@ typedef vector<vector<int> > SAL;
  once no more head-tail merge is possible
  is, within each segment, letters must be continous
  between segments, letters must be unique, otherwise, they should've been merged
-
-
-
-
  */
 
 vector<string> segs;
@@ -72,8 +68,11 @@ void merge() {
 
 			//cout << curStr << endl;
 
-			LP(j, i+1, segs.size())
+			LP(j, 0, segs.size())
 			{
+				if (used[j])
+					continue;
+
 				string potential = segs[j];
 
 				if (curStr[curStr.size() - 1] == potential[0]) {
@@ -81,18 +80,14 @@ void merge() {
 					used[j] = true;
 					nextRound.push_back(curStr + potential);
 					break;
-				} else if (curStr[0] == potential[potential.size() - 1]) {
-					used[i] = true;
-					used[j] = true;
-					nextRound.push_back(potential + curStr);
-					break;
 				}
-
 			}
+		}
 
-			if (!used[i]) {
-				nextRound.push_back(curStr);
-			}
+		LP(i, 0, segs.size())
+		{
+			if (!used[i])
+				nextRound.push_back(segs[i]);
 		}
 
 		if (nextRound.size() == segs.size())
@@ -161,7 +156,7 @@ LL ways() {
 int main() {
 	//freopen("/Users/georgeli/B_1.in", "r", stdin);
 freopen("/Users/georgeli/Downloads/B-small-practice.in", "r", stdin);
-freopen("/Users/georgeli/B_small_mine.out", "w", stdout);
+freopen("/Users/georgeli/B_small_2.out", "w", stdout);
 
 	int T, N;
 
