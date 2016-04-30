@@ -1,0 +1,51 @@
+unknown: phone #
+length unknown
+condition: non-decreasing number
+S, completely reordered => i.e., can reorder whichever way we want
+S < 2000
+
+500 digits, each has 9 choices => bad!
+
+# of Z = # of 0s
+# # of U = # of 4s
+# # of X  = # of 6s
+# pretty much a linear equation!
+
+------
+Some scores are missing:  filling missing digits that minimize abs difference
+
+seems earlier digit more important later digits
+
+minDiff(i, prevResult)
+
+if prevResult is >
+      minA, maxB, i.e., fill all A ?s with 0, Bs with 9s
+    
+if prevResult is < 
+      fill A ?s with 9s, Bs with 0s
+
+if prevResult is =
+  if both are digits
+    return minDiff(i+1, result of comparing digits) 
+
+if A side is digit, B side is ?
+    case ? = digit
+      return minDiff(i+1, =) + 0
+    case ? = digit + 1 if digit < 9
+      return minDiff(i+1, <) + base
+    case ? = digit - 1 if digit > 1
+      return minDiff(i+1, >) + base
+
+if A side is ?, B side is digit
+      
+
+if both sides are ?
+
+    case 0 0
+    case 0 1
+    case 1 0
+
+  
+claim: when A is digit, B is ?, 
+
+
