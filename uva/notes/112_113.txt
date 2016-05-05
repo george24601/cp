@@ -1,0 +1,25 @@
+11235
+condition:
+1. array non decreasing
+2. the tree is static
+3. need to handle most frequent value within an interval quickly
+unknown:
+most likely we need to use some data structure. Static data + range query suggests segment tree-like data structure, because array is non-decreasing, the "conquer" part is each compared to random random array
+
+----
+11240
+Greedy
+
+---
+11285
+DP
+
+---
+11290
+number system conversion
+
+---
+11294
+Search direction matters, notice the commutativity insight
+
+---

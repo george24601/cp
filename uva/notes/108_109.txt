@@ -1,0 +1,42 @@
+----
+10855
+a related problem: extend KMP to 2D? apparently its possible although not trivial
+
+---
+10866
+needs insight
+
+--
+10866
+math
+
+--
+10900
+probability
+
+--
+10904
+nice coding problem: handle aliases and cycles
+
+---
+10920
+Related problems
+We can do a reduction to digits & number problems => i.e., each round = one new digit, position within the round = which digit to use in the position
+i.e., digits and nubmer is a classic recursion pattern that we can do reduction upon!
+
+-----
+10954
+related problem: the stick-cutting DP problem.
+Condition: numbers in sets instead of list! we can reorder whatever way we like!
+Simpler problem: 3 element case
+
+--
+10997(!!!)
+How to complete search?
+
+
+--
+
+10999(!!!)
+
+two sorted array, how to know A match B? how to know the MAX match of a and b?

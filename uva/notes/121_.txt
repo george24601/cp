@@ -1,0 +1,22 @@
+12149
+"how many different squares are there in a grid of N ×N squares?".
+-------
+
+12347
+
+Given the pre-order traversal of a binary search tree, you task is to find the post-order traversal of this tree.
+
+----
+12356
+cant use continus array if we want to remove somthing
+use map to simulate linked list, since we know its in blocks
+can not use linked list directly, because we need index access
+
+Invent related problem:
+given the frequent block updates, what is the data structre to answer a block is all dead or not? 
+idea: will be similar to segment tree/interval tree. Although note that segment tree is generally static, but in our case, what is dead remains dead, so the over all update cost will be amortized to nlogn
+
+
+
+
+
