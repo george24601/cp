@@ -1,0 +1,13 @@
+RPI
+------
+Calculate WP
+
+Calculate OWP
+
+Calculate OOWP
+
+
+Revenge of the Hot Dog
+------
+C <= 200 points, such of all < 10^6
+D <= 10^6

@@ -1,0 +1,86 @@
+1. consider a single row case
+
+one problem is building ground up get us stuck => where to put next
+then from top down => we know the max, then at each step, we should try to reduce as much as we can
+
+consider a row case
+reduce all 2 neighbors -> 1 neighbors -> 0 neighbor
+
+Q: what is the max # one can fit with at most 1 neighbors?
+border must be met anyway, so it becomes
+1101101
+11011011
+110110101
+11011011011 -> back to the beginning!
+101010101 => no neighbor case, anthything between has only 1 index
+
+------
+chessboard can hold: WLOG, consider R > L
+R even C odd = R/2 * C
+R even C even = R/2 * C
+R odd C even = R * C/2
+
+Consider 2 rows case
+-3
+111
+101
+-2
+101
+101
+-2
+101
+010 => base case
+
+101
+010
+101
+
+----
+Consider R odd C odd case
+base case =  Chessboard: R odd C odd = (R -1 ) / 2 * C + (C +1) / 2
+11111
+11111
+11111
+4's to remove =
+11111
+10101
+11111
+
+10101
+11111
+
+11111
+10101
+11011 => so mini chessboard in reverse!
+10101
+11111
+
+11011 => so mini chessboard in reverse!
+10101
+
+# of 4s to remove = cb(R-2, C-2)
+
+# of 3s to remove = remaining of 1s in that chess board, i.e., R* C - cb(R-2, C-2)
+the remaining are 2s, until we hit chess board case
+
+Consider R even C odd case
+11111
+11111
+11111
+11111
+
+4s to remove 
+11111
+10101
+11011
+11111
+
+3s to remove, => same insight!
+
+
+
+
+
+4's to remove =  (R - 1) /2 * (C-1) / 2 
+3's to remove = :w
+

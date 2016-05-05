@@ -1,0 +1,72 @@
+Odd Man Out
+-------
+a simple map<int, int> would do, find the one with count = 1
+
+
+Get to Work
+------
+for each town other than T, start with larget P, until sum of Ps > # of employees at that town, otherwise impossible
+
+Qualification Round
+------
+Tried to reduce into the partition optimization problem, which is NP-hard => dead end
+
+I saw the simple greddy insights, but I was not able to prove it.
+
+Consider F(C, n) as the optimal solution value, with first n smallest numbers in S, and need to solve C problems to advance.
+
+  Claim 1: F(C,n) <= F(C-1, n-1)
+  Proof: Given a solution of F(C, n), remove problem n from all advancers, which gives a solution of for (C-1, n-1) case, which will be <=
+F(C-1, n-1), the optimal value in this case 
+
+  Claim 2: if S[n-1] >= F(C-1, n-1), F(C, n) = F(C-1, n-1)
+  Proof: from the F(C-1, n-1) solution, we give 1 from S[n] to each advancer F(C-1, n-1), this is feasible because F(C-1, n-1) <= S[n-1] <= S[n]
+ i.e., F(C-1, n-1) = value of our (C, n) solution <= F(C, n). This combined with Claim 1 proves our claim
+
+  Claim 3: if S[n-1] < F(C-1, n-1), S[n-1] <= F(C,n)
+  Proof: Given a solution for F(C-1, n-1), add nth problem to S[n-1] advancers, which <= F(C-1, n-1). This generates a valid solution to
+(C,n), and therefore less than F(C,n) 
+
+  Claim 4: if S[n-1] < F(C-1, n-1), then if a problem i is solved by all advancers, then all solutions are by advancers 
+  Proof: F(C,n) <= S[i] <= S[i+1] ..... <= S[n-1] <= F(C,n). Since F(C,n) on both ends, only = is possible
+
+  Claim 5: Given an optimal solution, we can tranform it into an equally optimal one where solutions of a problem is either solved by all advancers, or has all but 0 or 1 of solutions used by advancers
+  Proof: for a problem i that is not solved by all advancers, and has >=2 solutions used by non-advancers. 
+  Not solved by all advancers => there exists 1 advancer that solved C problems other than this one. One of such problem must have all its
+solution solved by advancers, otherwise, we can squeeze one more advancer in, by assigning the "free space" of these C problems to another
+advancer. This contradcits the optimal conditions.
+  Now, we can move 1 solve from this full problem to this empty problem. This will not affect overall solution count.
+  We can repeat this process. When we are not able to, this means problems of form i no longer exists,i.e., we have reorganized one optimal
+solution into the form we requested
+
+  Now we transform optimial solution into the form of Claim 5. Then under claim 4, we have
+  1. S[n-1] < F(C-1, n-1)
+  2. for j = 0...i-1, solutions for problem j have all but 0 or 1 of solutions used by advancers 
+  3. for j = i...n, all soultions for problems j are used by advancers, notice that this essentially reduced to 2,i.e., all problems 1 to n
+have all but 0 or 1 of slutions used by advancers
+
+  Claim: given 1,2, 3, F(C,n) = sum(S)/ C
+  Proof: notice there we can not have more than C problems unused by advancers. Otherwise, we can advance 1 more instead, and we know at
+least N-C + 1 problems are used by all advancers
+  
+  If we take out 1 solve from C problems, while ensuring we take out ones from ones with unused by advancers, we know that, we reach the
+F(C,n) case
+
+
+
+
+Another approach
+-------
+sort S, when k = sum(S)/C, and s[N] <= k, then F(C,n) = k
+proof by induction on k
+
+Take 1 entries off s[N-C +1] to S[N], k' = k-1 =  sum(S')/C, note that sum(S) = c *k, if there is more than C s[N] =k, sum(C)  < sum(S[i])
+=> contradiction!
+
+
+
+Polygraph
+------
+General idea is to keep finding inconsistency and update fact until unable to do.
+
+reduce the whole system into a linear equation, with mod marking true or false.
