@@ -27,19 +27,19 @@ typedef vector<vector<int> > SAL;
 #define Ep 1e-8
 
 /*
-Reverse the string
+ Reverse the string
 
-canCut2(i)
-canCut3(i)
+ canCut2(i)
+ canCut3(i)
 
-scan through i, add result to final set
+ scan through i, add result to final set
 
  */
 
 int const MaxSize = 10010;
 
 int main() {
-	freopen("/Users/georgeli/A_1.in", "r", stdin);
+	//freopen("/Users/georgeli/A_1.in", "r", stdin);
 
 	string s;
 
@@ -50,7 +50,7 @@ int main() {
 	int N = s.length();
 
 	LP(i, 0,N)
-		rs.push_back(s[N - i]);
+		rs.push_back(s[N - 1 - i]);
 
 	bool can2[MaxSize];
 	memset(can2, false, sizeof(can2));
@@ -58,45 +58,58 @@ int main() {
 	bool can3[MaxSize];
 	memset(can3, false, sizeof(can3));
 
-	can2[1] = true;
-	can2[2] = true;
-
-	LP(i, 3, N - 4)
+	LP(i, 1, N - 5)
 	{
-		if (rs[i] == rs[i - 2] && rs[i-1] == rs[i - 3])
-			can2[i] = false;
-		else
+		if(i == 1){
 			can2[i] = true;
-	}
+			continue;
+		}else if(i == 2){
+			can3[i] = true;
+			continue;
+		}
 
-	can3[2] = true;
-	can3[3] = true;
-	can3[4] = true;
-
-	LP(i, 5, N - 4)
-	{
 		bool hasDup = true;
-		LP(j, 0, 3){
-
-			if(rs[i - j - 3] != rs[i -j])
+		int len = 2;
+		LP(j, 0, len)
+		{
+			if (rs[i - j - len] != rs[i - j])
 				hasDup = false;
 		}
 
-		can3[i] = !hasDup;
+		can2[i] = can3[i - len] || (can2[i - len] && !hasDup);
+
+		hasDup = true;
+		len = 3;
+
+		LP(j, 0, len)
+		{
+			if (rs[i - j - len] != rs[i - j])
+				hasDup = false;
+		}
+
+		can3[i] = can2[i-len] || (can3[i - len] && !hasDup);
+	}
+
+	set<string> uniques;
+
+	LP(i, 0, N)
+	{
+		if (can2[i])
+			uniques.insert(s.substr(N - 1 - i, 2));
+
+		if (can3[i])
+			uniques.insert(s.substr(N - 1 - i, 3));
 	}
 
 	vector<string> res;
+	set<string>::iterator it;
 
-	LP(i, 0, N){
-		if(can2[i])
-			res.push_back(s.substr(N - 1 -i, 2));
-
-		if(can3[i])
-			res.push_back(s.substr(N - 1 -i, 3));
-	}
+	for (it = uniques.begin(); it != uniques.end(); it++)
+		res.push_back(*it);
 
 	sort(res.begin(), res.end());
 
+	cout << res.size() << endl;
 	LP(i, 0, res.size())
 		cout << res[i] << endl;
 
