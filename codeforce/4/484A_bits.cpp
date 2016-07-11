@@ -27,63 +27,46 @@ typedef vector<vector<int> > SAL;
 #define Ep 1e-8
 
 /*
- # of snowdrift = # of components - 1
+
 
  */
 
-int const MaxSize = 110;
+LL ans(LL l, LL r) {
+	if (l == r)
+		return l;
 
-int const MOD = 1000000007;
+	int di = 62;
+	while (true) {
+		if ((1ll << di) <= r)
+			break;
+		else
+			di--;
+	}
 
-int n;
-int x[MaxSize];
-int y[MaxSize];
-SAL graph;
-int visited[MaxSize];
+	LL curP = 1ll << di;
 
-void dfs(int node){
-	if(visited[node])
-		return;
+	if (l >= curP)
+		return curP + ans(l - curP, r - curP);
+	else if (r == (curP * 2 - 1))
+		return curP * 2 - 1;
 	else
-		visited[node] = true;
+		return curP - 1;
 
-	LP(i, 0, graph[node].size())
-		dfs(graph[node][i]);
 }
 
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
 	//freopen("/Users/georgeli/A_1.in", "r", stdin);
 
-	scanf("%d" , &n);
+	int n;
+	cin >> n;
 
 	LP(i, 0, n)
-		scanf("%d %d", &x[i], &y[i]);
+	{
+		LL l, r;
 
-	graph = SAL(n);
-
-	LP(i, 0, n){
-		LP(j, i + 1, n){
-			if(x[i] == x[j] || y[i] == y[j]){
-				graph[i].push_back(j);
-				graph[j].push_back(i);
-			}
-		}
+		cin >> l >> r;
+		cout << ans(l, r) << endl;
 	}
-
-	int comp = 0;
-
-	memset(visited, false, sizeof(visited));
-
-	LP(i, 0, n){
-		if(visited[i])
-			continue;
-
-		comp++;
-		dfs(i);
-	}
-
-
-	cout << comp - 1 << endl;
-
-	return 0;
 }
