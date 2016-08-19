@@ -27,44 +27,37 @@ typedef vector<vector<int> > SAL;
 #define Ep 1e-8
 
 /*
- only 5 cards,
- either a 3 + 2
-
- get all number, calc potential diff
 
  */
-
-int const MaxSize = 30;
-int n = 5;
+int const MaxSize = 100010;
+PII stars [MaxSize];
+int n;
+map<PII, int> inverse;
 
 int main() {
+	ios_base::sync_with_stdio(false);
 	//freopen("/Users/georgeli/A_1.in", "r", stdin);
 
-	int sum = 0;
-	int curMaxSub = 0;
-	map<int, int> c;
+	scanf("%d", &n);
 
-	LP(i, 0, n)
-	{
-		int num;
-		cin >> num;
-		sum += num;
+	LP(i, 0, n){
+		int x, y;
+		scanf("%d %d", &x, &y);
+		stars[i] = PII(x, y);
+		inverse[PII(x, y)] = i + 1;
+	}
 
-		if (c.count(num) == 0)
-			c[num] = 0;
+	sort(stars, stars + n);
 
-		c[num] += 1;
+	printf("%d %d ", inverse[stars[0]], inverse[stars[1]]);
 
-		int nc = c[num];
-
-		if (nc >= 2) {
-			int numDis = min(3, nc);
-
-			curMaxSub = max(curMaxSub, num * numDis);
+	LP(i, 2, n){
+		if(stars[i].first != stars[0].first){
+			printf("%d\n", inverse[stars[i]]);
+			break;
 		}
 	}
 
-	cout << sum - curMaxSub << endl;
 
 	return 0;
 }

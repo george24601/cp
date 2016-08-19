@@ -26,54 +26,47 @@ typedef vector<vector<int> > SAL;
 #define INF 2000000000
 #define Ep 1e-8
 
-/*
- max dis = min(0, n - 1 - a);
+void ans(int n, int p) {
+	if (n == 5) {
+		assert(p == 0);
 
- for
+		LPE(i, 1, n)
+		{
+			printf("%d %d\n", i, i + 1 > n ? i + 1 - n : i + 1);
+			printf("%d %d\n", i, i + 2 > n ? i + 2 - n : i + 2);
+		}
 
- */
+		return;
+	}
 
-int const MaxSize = 110;
-int n, a;
-int t[MaxSize];
+	int prevMaxP = (n - 1) * (n - 2) / 2 - 2 * (n - 1);
+
+	if (prevMaxP < p) {
+		LP(i, 0, 2 + p - prevMaxP)
+			printf("%d %d\n", 1 + i, n);
+
+		ans(n - 1, prevMaxP);
+	} else {
+		LP(i, 0, 2)
+			printf("%d %d\n", 1 + i, n);
+
+		ans(n - 1, p);
+	}
+}
 
 int main() {
+	ios_base::sync_with_stdio(false);
 	//freopen("/Users/georgeli/A_1.in", "r", stdin);
+	int t;
+	cin >> t;
 
-	scanf("%d %d", &n, &a);
+	LP(i, 0, t)
+	{
+		int n, p;
+		cin >> n >> p;
 
-	a--;
-
-	LP(i, 0, n)
-		scanf("%d", &t[i]);
-
-	int dist, startOut, endOut;
-
-	if(a < n/2){
-		dist = a;
-		startOut = a + dist + 1;
-		endOut = n -1;
-	}else{
-		dist = n - 1 - a;
-		startOut = 0;
-		endOut = a - dist - 1;
+		ans(n, p);
 	}
-
-	int res = 0;
-	if(t[a])
-		res++;
-
-	LPE(d, 1, dist){
-		if(t[a-d] && t[a + d])
-			res += 2;
-	}
-
-	LPE(i, startOut, endOut){
-		if(t[i])
-			res++;
-	}
-
-	cout << res << endl;
 
 	return 0;
 }

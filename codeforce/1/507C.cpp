@@ -1,7 +1,6 @@
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -25,42 +24,42 @@ typedef pair<int, int> PII;
 typedef vector<vector<PII> > WAL;
 typedef vector<vector<int> > SAL;
 #define INF 2000000000
-#define Ep 1e-9
+#define Ep 1e-8
 
 /*
- if s length > 26: impossible -1
- if s length <= 26: find # of distinct numbers
- change to s length - current # of distincts
-
 
  */
 
-int const MaxSize = 50;
-
-int main() {
-	//freopen("/Users/georgeli/A_1.in", "r", stdin);
-	//freopen("/Users/georgeli/Downloads/B-large.in", "r", stdin);
-	//freopen("/Users/georgeli/B_large.out", "w", stdout);
-
-	int n;
-
-	scanf("%d", &n);
-
-	if(n > 26){
-		printf("-1\n");
+LL ans(bool left, int h, LL n) {
+	if (0 == h) {
+		assert(1 == n);
 		return 0;
 	}
 
-	char word [MaxSize];
+	LL half = 1LL << (h - 1);
 
-	scanf("%s", word);
+	if (left) {
+		if (n > half)
+			return half * 2LL + ans(true, h - 1, n - half);
+		else
+			return 1LL + ans(false, h - 1, n);
+	} else {
+		if (n > half)
+			return 1LL + ans(true, h - 1, n - half);
+		else
+			return half * 2LL + ans(false, h - 1, n);
+	}
 
-	set<char> uniques;
+}
 
-	LP(i, 0, n)
-		uniques.insert(word[i]);
+int main() {
+	ios_base::sync_with_stdio(false);
+	//freopen("/Users/georgeli/A_1.in", "r", stdin);
+	LL h, n;
 
-	printf("%d\n", n - uniques.size());
+	cin >>h >> n;
+
+	cout << ans(true, h, n) << endl;
 
 	return 0;
 }
