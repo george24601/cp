@@ -1,5 +1,0 @@
-r/P,o/G,y/S,g/A,b/N 
-r/G,o/S,y/A,g/P,b/N 
-r/G,o/S,y/A,g/P,b/N 
-e 
-#
