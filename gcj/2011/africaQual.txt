@@ -1,7 +1,0 @@
-1. simple greedy
-
-2. n^2 is enough, but can use a seg tree to reduce to O(nlogn)
-
-3.  
-good (r, c, w, l) = good(r, c, 1, l) + good (r, c, w, 1) + good(r, c, w - 1, l -l)
-What if we are looking for sqaures instead of rectangles, can we get a better run time?
