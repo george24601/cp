@@ -20,7 +20,7 @@ typedef unsigned long long UL;
 typedef long long LL;
 #define LP(i, a, b) for (int i = int(a); i < int(b); i++)
 #define LPE(i, a, b) for (int i = int(a); i <= int(b); i++)
-#define INF 1e18
+#define INF 1e9
 typedef pair<int, int> PII;
 typedef vector<vector<PII> > WAL;
 typedef vector<vector<int> > SAL;
@@ -33,7 +33,7 @@ int const MaxSize = 3 * 1e5 + 10;
 
 int n, k, d;
 
-bool visited[MaxSize];
+int dist[MaxSize];
 PII e[MaxSize];
 SAL g;
 
@@ -42,14 +42,19 @@ int main() {
 	//freopen("/Users/george/A_1.in", "r", stdin);
 	cin >> n >> k >> d;
 
-	queue<PII> toExpand;
+	queue<int> toExpand;
+
+	LPE(v, 1, n)
+	{
+		dist[v] = INF;
+	}
 
 	LP(i, 0, k)
 	{
 		int v;
 		cin >> v;
-		toExpand.push(PII(v, 0));
-		visited[v] = true;
+		toExpand.push(v);
+		dist[v] = 0;
 	}
 
 	g = SAL(n + 1);
@@ -67,19 +72,18 @@ int main() {
 	set<PII> toKeep;
 
 	while (toExpand.size()) {
-		int v = toExpand.front().first;
-		int dist = toExpand.front().second;
+		int v = toExpand.front();
 		toExpand.pop();
 		//cout << "at:" << v << " " << dist << endl;
 		LP(i, 0, g.at(v).size())
 		{
 			int next = g.at(v)[i];
 
-			if (dist >= d || visited[next]) {
+			if (dist[v] >= d || dist[next] <= d) {
 				//can't expand anymore;
 			} else {
-				visited[next] = true;
-				toExpand.push(PII(next, dist + 1));
+				dist[next] = dist[v] + 1;
+				toExpand.push(next);
 				toKeep.insert(PII(min(v, next), max(v, next)));
 			}
 		}
