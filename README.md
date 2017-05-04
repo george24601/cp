@@ -3,8 +3,8 @@ My competitive programming answers. Number in the folder means the number of tri
 
 Codeforce
 
-Google code jam
+AtCoder
 
 Topcoder
 
-UVa online judge
+Google Code Jam
