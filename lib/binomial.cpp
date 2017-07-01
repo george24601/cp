@@ -1,31 +1,33 @@
-typedef unsigned long long UL;
 typedef long long LL;
 #define LP(i, a, b) for (int i = int(a); i < int(b); i++)
-#define LPE(i, a, b) for (int i = int(a); i <= int(b); i++)
 
-int const MaxSize = 40;
+//NOTE WORKS ONLY WHEN MOD IS PRIME
+LL MOD = 1e9 + 7;
+LL f[MaxSize], invF[MaxSize], r[MaxSize];
 
-LL chooseN[MaxSize + 1][MaxSize];
+void preCalc() {
+	r[1] = 1;
+	f[1] = 1;
+	invF[1] = 1;
+	LL m = MOD;
 
-void initChoose() {
-	LPE(i, 0, MaxSize)
-	{
-		memset(chooseN[i], 0, sizeof(chooseN[i]));
-		chooseN[i][0] = 1;
-		chooseN[i][i] = 1;
+	for (LL i = 2; i < MaxSize; ++i) {
+		r[i] = (m - (m / i) * r[m % i] % m) % m;
+
+		f[i] = (i * f[i - 1]) % MOD;
+		invF[i] = (r[i] * invF[i - 1]) % MOD;
 	}
 }
 
-LL choose(int top, int bottom) {
-
-	if (top < 0 || bottom < 0 || bottom > top)
+LL choose(LL top, LL bottom) {
+	if (top < bottom || top < 0 || bottom < 0)
 		return 0;
+	if (top == bottom || bottom == 0)
+		return 1;
 
-	assert(top >= bottom);
+	LL bfs = (invF[bottom] * invF[top - bottom]) % MOD;
 
-	if (chooseN[top][bottom])
-		return chooseN[top][bottom];
+	//	cout << "ftop:" << top << " " << f[top] << endl;
 
-	return chooseN[top][bottom] = choose(top - 1, bottom - 1)
-			+ choose(top - 1, bottom);
+	return (f[top] * bfs) % MOD;
 }
