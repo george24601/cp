@@ -1,10 +1,8 @@
-# cp
-My competitive programming answers. Number in the folder means the number of tries to get AC for that problem, i.e., the relative difficulty of the problem when I first tried them
+# My competitive programming answers
 
-Codeforce
+Insights
+--------
 
-AtCoder
+[Search][search.md]
 
-Topcoder
-
-Google Code Jam
+[Greedy][greedy.md]
