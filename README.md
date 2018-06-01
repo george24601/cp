@@ -1,8 +1,15 @@
+
+# Insights
+
+[Search](search.md)
+
+[Greedy](greedy.md)
+
+
 # My competitive programming answers
 
-Insights
---------
+[Codeforces](cf)
 
-[Search][search.md]
+[CS Academy](csa)
 
-[Greedy][greedy.md]
+[atCoder](atCoder)
