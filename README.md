@@ -5,6 +5,10 @@
 
 [Greedy](greedy.md)
 
+[Master theorem](master_theorem.md)
+
+[Suffix array](suffix_array.md)
+
 
 # My competitive programming answers
 
