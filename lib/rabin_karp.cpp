@@ -9,11 +9,11 @@ LL const BASE = 256;
  */
 //don't forget to lower case if you are doing string matching
 LL sHash(string s){
-	LL h =  0
-		LP(i, 0, s.size()){
-			h = (h * BASE) + (LL)s[i]; //very similar idea to base number calculation
-			h %= HASH_MOD;
-		}
+	LL h =  0;
+	LP(i, 0, s.size()){
+		h = (h * BASE) + (LL)s[i] - 'a'; //very similar idea to base number calculation
+		h %= MOD;
+	}
 
 	return h;
 }
