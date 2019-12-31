@@ -4,3 +4,7 @@ consider double binary representation, sign + expoennt + manitissa, this defines
 
 2^2 becomes 2+127 = 129
 1.010011011 becomes 010011011 in manitissa
+
+### Tricks
+
+* i + 1 - len(suffix) = start index of suffix ends at i

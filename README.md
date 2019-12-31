@@ -1,19 +1,3 @@
-
-# Insights
-
-[Search](search.md)
-
-[Greedy](greedy.md)
-
-[Master theorem](master_theorem.md)
-
-[Suffix array](suffix_array.md)
-
-
 # My competitive programming answers
 
-[Codeforces](cf)
-
-[CS Academy](csa)
-
-[atCoder](atCoder)
+* Number in the directory name means the failed attempts I had, i.e., 0 means success at the first try
