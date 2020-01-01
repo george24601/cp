@@ -27,7 +27,7 @@ import scipy
 #https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_e
 #Colorful Hats 2
 """
-this version has ac in all but 2 cases...
+WA in all but the last two answers 
 """
 
 # reads a single line
