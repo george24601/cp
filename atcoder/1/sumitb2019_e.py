@@ -62,3 +62,4 @@ elif num_c > 1:
 ans %= MOD
 
 print(ans)
+
