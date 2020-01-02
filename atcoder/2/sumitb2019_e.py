@@ -27,39 +27,19 @@ import scipy
 #https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_e
 #Colorful Hats 2
 """
-WA in all but the last two answers 
 """
 
 # reads a single line
 N = gi()
-tails = [0] * N
+tails = [0] * (N + 5)
 
+tails[0] = 3
 ans = 1
 for i in range(N):
-    tails[i] = 0
-    cur = gi()
-    #print(cur)
-    if cur == 0:
-        tails[cur] += 1
-        continue
-
-    tail_c = tails[cur - 1]
-
-    ans *= tail_c
+    a = gi()
+    ans *= tails[a]
     ans %= MOD
-    tails[cur - 1] -= 1
-    tails[cur] += 1
-
-num_c = 0
-for v in tails:
-    num_c += v
-
-if num_c == 1:
-    ans *= 3
-elif num_c > 1:
-    ans *= 6
-
-ans %= MOD
+    tails[a] -= 1
+    tails[a + 1] += 1
 
 print(ans)
-

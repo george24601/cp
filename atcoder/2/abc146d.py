@@ -1,3 +1,6 @@
+from _collections import deque
+
+
 def parser():
     while 1:
         data = list(input().split(' '))
@@ -21,79 +24,56 @@ def gi():
 
 MOD = int(1e9 + 7)
 
-# numpy and scipy are available for use
 import numpy
 import scipy
+from collections import deque
 #https://atcoder.jp/contests/abc146/tasks/abc146_d
 #D - Coloring Edges on Tree
 """
-this version has ac in all but 2 cases...
+for each edge, keep track of parent, and each edges color
+while we are BFSing, we can just iterate from 1, and skip if the next one is same as parents
 """
 
 # reads a single line
 N = gi()
-cs = {}
-nbls = [[] for i in range(N)]  #[] * N won't work
-ans = 0
-il = []
+ecs = {}
+nbls = [[] for i in range(N + 5)]  #[] * N won't work
+p = [0] * (N + 5)
+in_l = []
+
+max_d = 0
 
 for i in range(1, N):
-    a = gi() - 1
-    b = gi() - 1
+    a = gi()
+    b = gi()
     nbls[a].append(b)
     nbls[b].append(a)
-    il.append((min(a, b), max(a, b)))
+    max_d = max(max_d, len(nbls[a]), len(nbls[b]))
+    in_l.append((min(a, b), max(a, b)))
+p[1] = 0  #sentinel node to keep code clean
+ecs[(0, 1)] = -1
 
+c_i = 0
+q = deque()
+q.append(1)
 
-def color(v, p):
-    #print(v, p)
-    ecs = []
-    tos = []
+while len(q):
+    v = q.pop()
+    #by the time we reach the node, the parent edge of this node has been colored
+    parent_ci = ecs[(min(v, p[v]), max(v, p[v]))]
     for u in nbls[v]:
-        e = (min(u, v), max(u, v))
-        if e in cs:
-            ecs.append(cs[e])
-        else:
-            tos.append(e)
+        if u == p[v]:
+            continue
+        q.append(u)
+        p[u] = v
+        if parent_ci == c_i:
+            c_i += 1
+            c_i %= max_d
+        ecs[(min(u, v), max(u, v))] = c_i
+        c_i += 1
+        c_i %= max_d
 
-    ecs.sort()
+print(max_d)
+for e in in_l:
+    print(ecs[e] + 1)
 
-    can_cs = []
-
-    prev_c = ecs[0] - 1
-    while len(can_cs) < len(tos) and prev_c > 0:
-        can_cs.append(prev_c)
-        prev_c -= 1
-
-    for i in range(1, len(ecs)):
-        prev_c = ecs[i] - 1
-        while prev_c > ecs[i - 1] and len(can_cs) < len(tos):
-            can_cs.append(prev_c)
-            prev_c -= 1
-
-    next_c = ecs[-1] + 1
-    while len(can_cs) < len(tos):
-        global ans
-        ans += 1
-        can_cs.append(next_c)
-        next_c += 1
-    i = 0
-    for to in tos:
-        cs[to] = can_cs[i]
-        i += 1
-
-    for u in nbls[v]:
-        if u != p:
-            color(u, v)
-
-
-for u in nbls[0]:
-    e = (0, u)
-    ans += 1
-    cs[e] = ans
-
-color(0, -1)
-
-print(ans)
-for e in il:
-    print(cs[e])
