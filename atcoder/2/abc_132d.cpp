@@ -30,7 +30,7 @@ typedef vector<vector<int> > SAL;
 #define LINF 1e18
 
 LL const MOD = 1e9 + 7;
-LL const MaxSize = 300 + 5;
+LL const MaxSize = 2000 + 5;
 //LL const MOD = 998244353;
 
 /*
@@ -38,49 +38,58 @@ LL const MaxSize = 300 + 5;
 https://atcoder.jp/contests/abc132/tasks/abc132_d
 D - Blue and Red Balls
 
- Easy problem, but python version gives TLE in the last two cases
  */
 
 //NOTE WORKS ONLY WHEN MOD IS PRIME
 LL N, K;
 //test case, either = 1 or all = 1
 
-LL p(LL base, LL power) {
-	if (power == 0)
-		return 1;
-	else if (power == 1)
-		return base;
-	LL half = p(base, power / 2);
-	LL ans = (half * half) % MOD;
+//NOTE WORKS ONLY WHEN MOD IS PRIME
+LL f[MaxSize], invF[MaxSize], r[MaxSize];
 
-	if (power % 2) {
-		ans *= base;
-		ans %= MOD;
-	}
+void preCalc() {
+        r[1] = 1;
+        f[1] = 1;
+        invF[1] = 1;
+        LL m = MOD;
 
-	return ans;
+        for (LL i = 2; i < MaxSize; ++i) {
+                r[i] = (m - (m / i) * r[m % i] % m) % m;
+
+                f[i] = (i * f[i - 1]) % MOD;
+                invF[i] = (r[i] * invF[i - 1]) % MOD;
+        }
+}
+
+LL choose(LL top, LL bottom) {
+        if (top < bottom || top < 0 || bottom < 0)
+                return 0;
+        else if (top == bottom || bottom == 0)
+                return 1;
+
+
+        LL bfs = (invF[bottom] * invF[top - bottom]) % MOD;
+
+        //      cout << "ftop:" << top << " " << f[top] << endl;
+
+        return (f[top] * bfs) % MOD;
 }
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	freopen("/Users/georgeli/A_1.in", "r", stdin);
+        ios_base::sync_with_stdio(false);
+        //freopen("/Users/georgeli/A_1.in", "r", stdin);
 
-	cin >> N >> K;
+        cin >> N >> K;
 
-	cout << N - K + 1 << endl; //only 1 move
+        preCalc();
 
-	int moveUB = (N - K) >= K - 1 ? K : N - K + 1;
-	LPE(i, 2, moveUB)
-	{
-		LL freeB = K - i;
-		LL freeR = N - K - (i - 1);
-		LL ways = p(i, freeB) * p(i + 1, freeR);
-		ways %= MOD;
-		cout << ways << endl;
-	}
+        LPE(i, 1, K){
+            LL pos = choose(N-K+1, i);
+            LL ways = choose(K - 1, K - i);
+        //    cout << i << " " << pos << " " << ways << endl;
+            cout << (pos * ways) % MOD << endl;
+        }
 
-	LPE(i, moveUB + 1, K)
-		cout << 0 << endl;
-	return 0;
+        return 0;
 }
 
