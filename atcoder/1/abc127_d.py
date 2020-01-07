@@ -29,11 +29,36 @@ import numpy
 from collections import deque
 from math import sqrt
 from math import floor
-# https://atcoder.jp/contests/arc067/tasks/arc067_a
-# C - Factors of Factorial
+#https://atcoder.jp/contests/abc127/tasks/abc127_d
+#D - Integer Cards
 """
 need to consider the case that ticket is not enough to lower everything
 """
 
 N = gi()
-C = [0] * N
+M = gi()
+A = [0] * N
+ops = []
+
+for i in range(N):
+    A[i] = gi()
+for _ in range(M):
+    b = gi()
+    c = gi()
+    ops.append((-c, b))
+
+A.sort()
+ops.sort()
+
+i = 0
+for op in ops:
+    nv = -op[0]
+    for _ in range(op[1]):
+        if i >= N:
+            break
+        if nv < A[i]:
+            break
+        A[i] = nv
+        i += 1
+
+print(sum(A))

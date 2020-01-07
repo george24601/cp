@@ -36,4 +36,27 @@ need to consider the case that ticket is not enough to lower everything
 """
 
 N = gi()
-C = [0] * N
+cnt = [0] * (N + 1)
+
+cnt[1] = 1
+
+for i in range(2, N + 1):
+    t = i
+    for d in range(2, int(sqrt(i)) + 1):
+        while (t % d == 0):
+            cnt[d] += 1
+            t = t // d
+
+    if (t > 1):
+        cnt[t] += 1
+
+ans = 1
+
+#print(cnt)
+
+for d in range(2, N + 1):
+    if cnt[d]:
+        ans *= (cnt[d] + 1)
+        ans %= MOD
+
+print(ans)

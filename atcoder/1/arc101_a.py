@@ -29,11 +29,30 @@ import numpy
 from collections import deque
 from math import sqrt
 from math import floor
-# https://atcoder.jp/contests/arc067/tasks/arc067_a
-# C - Factors of Factorial
+# https://atcoder.jp/contests/abc107/tasks/arc101_a
+# C - Candles
 """
 need to consider the case that ticket is not enough to lower everything
 """
-
 N = gi()
-C = [0] * N
+K = gi()
+xs = [0] * N
+for i in range(N):
+    xs[i] = gi()
+
+ans = abs(2 * xs[0]) + xs[-1]
+if xs[0] >= 0:
+    ans = min(ans, xs[K - 1])
+elif xs[-1] <= 0:
+    ans = min(ans, xs[-K + 1])
+
+for i in range(N):
+    if (i + K - 1 >= N):
+        break
+    r = xs[i + K - 1]
+    l = xs[i]
+
+    if (l <= 0 and r >= 0):
+        ans = min(ans, -l + r + min(-l, r))
+
+print(ans)

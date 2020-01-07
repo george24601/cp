@@ -50,11 +50,14 @@ while i < N:
     isV = S1[i - 1] == S2[i - 1]
     if S1[i] == S2[i]:
         if isV:
-            ans *= 3
+            ans *= 2
             ans %= MOD
         i += 1
     else:
-        ans *= 2
+        if isV:
+            ans *= 2
+        else:
+            ans *= 3
         ans %= MOD
         i += 2
 

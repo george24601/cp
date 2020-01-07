@@ -43,46 +43,24 @@ for i in range(N):
     A[i] = gi()
 
 A.sort()
-nl = -1
-nr = 1
-hi = N - 2
-li = 0
-big = 0
+base = 0
+half_i = N // 2
 
-curL = A[N - 1]
-curR = A[N - 1]
+for i in range(half_i):
+    base -= 2 * A[i]
 
-while (hi >= li):
-    can = A[hi]
-    actual = hi
-    if big:
-        hi -= 1
-    else:
-        can = A[li]
-        actual = li
-        li += 1
+for i in range(half_i, N):
+    base += 2 * A[i]
 
-    big = 1 - big
+el = 0
+ol_l = 0
+ol_h = 0
 
-    if (abs(curL - can) > abs(curR - can)):
-        ais[actual] = nl
-        nl -= 1
-        curL = can
-    else:
-        ais[actual] = nr
-        nr += 1
-        curR = can
+if N % 2 == 0:
+    el = base - A[half_i] + A[half_i - 1]
 
-for i in range(N):
-    ais[i] -= (nl + 1)
+if (N >= 3 and N % 2):
+    ol_l = base - 3 * A[half_i] + A[half_i - 1]
+    ol_h = base - A[half_i] - A[half_i + 1]
 
-ans = [0] * N
-
-for i in range(N):
-    ans[ais[i]] = A[i]
-
-s = 0
-for i in range(N - 1):
-    s += abs(ans[i] - ans[i + 1])
-
-print(s)
+print(max(el, ol_l, ol_h))

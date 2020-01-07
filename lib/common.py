@@ -8,3 +8,6 @@ x, y = 1, 2
 x, y = y, x
 
 2 ** 10 = 1024
+
+ans = [[0 for x in range(W)] for i in range(H + 5)]  #[] * N won't work
+nbls = [[] for i in range(N + 5)]  #[] * N won't work
