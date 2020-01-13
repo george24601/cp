@@ -38,40 +38,37 @@ m = n, possible only when n = 1
 
 """
 
-
 def find(si, ei):
     if si > ei:
         return
-
-    mid = (si + ei) // 2
-
+    
+    mid = (si + ei)//2
+    
     pg(mid)
     if found >= 0:
         print(found)
         return
-
+    
     if mid == si:
-        find(mid + 1, ei)
-        return
-
+        
+    
     d = mid - si
-
+    
     if d % 2:
         if ss[mid] ^ ss[si]:
-            find(mid, ei)
+            find(mid + 1, ei)
         else:
-            find(si, mid - 1)
+            find(si, mid)
     else:
         if ss[mid] ^ ss[si]:
-            find(si, mid - 1)
+            find(si + 1, mid - 1)
         else:
-            find(mid, ei)
-
+            find(mid + 1, ei - 1)
 
 def pg(i):
     if (ss[i] >= 0):
         return ss[i]
-
+    
     global found
     print(i)
     s = gi()
@@ -83,8 +80,4 @@ def pg(i):
 N = gi()
 ss = [-1] * N
 found = -1
-pg(0)
-if found >= 0:
-    print(found)
-else:
-    find(0, N - 1)
+find(0, N-1)
