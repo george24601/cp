@@ -29,62 +29,52 @@ import numpy
 from collections import deque
 from math import sqrt
 from math import floor
-#https://atcoder.jp/contests/apc001/tasks/apc001_c
-#C - Vacant Seat
+# https://atcoder.jp/contests/abc145/tasks/abc145_e
+# E - All-you-can-eat
 """
-m > n impossible
-m = n, possible only when n = 1
+DP1[i][j] =the maximum sum of deliciousness of dishes, which are chosen from 1st- to i-th dishes,
+such that he can finish them in j minutes
 
+still WA!!!
 
 """
+t1 = gi()
+t2 = gi()
+a1 = gi()
+a2 = gi()
+b1 = gi()
+b2 = gi()
+
+if a1 < b1:
+    a1, b1 = b1, a1
+    a2, b2 = b2, a2
+
+#print(a1, a2, b1, b2)
+
+d1 = (a1 - b1) * t1
+d2 = (a2 - b2) * t2
+
+net = d1 + d2
 
 
-def find(si, ei):
-    if si > ei:
+def run():
+    if d1 == 0 or net == 0:
+        print('infinity')
+        return
+    elif net > 0:
+        print(0)
         return
 
-    mid = (si + ei) // 2
+    d = abs(net)
 
-    pg(mid)
-    if found >= 0:
-        print(found)
-        return
-
-    if mid == si:
-        find(mid + 1, ei)
-        return
-
-    d = mid - si
-
-    if d % 2:
-        if ss[mid] ^ ss[si]:
-            find(mid, ei)
-        else:
-            find(si, mid - 1)
+    ans = 0
+    p2 = (d1 // d)
+    if (d1 % d == 0):
+        ans = 2 * p2
     else:
-        if ss[mid] ^ ss[si]:
-            find(si, mid - 1)
-        else:
-            find(mid, ei)
+        ans = 2 * p2 + 1
+
+    print(ans)
 
 
-def pg(i):
-    if (ss[i] >= 0):
-        return ss[i]
-
-    global found
-    print(i)
-    s = gi()
-    ss[i] = s
-    if (s == 2):
-        found = i
-
-
-N = gi()
-ss = [-1] * N
-found = -1
-pg(0)
-if found >= 0:
-    print(found)
-else:
-    find(0, N - 1)
+run()
