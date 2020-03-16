@@ -5,6 +5,3 @@ l:
 	
 r: l
 	python3 $(M).py < A_1.in
-r2: l
-	./wordcount.py --topcount $(F)
-

@@ -6,3 +6,4 @@ bool sameLine(int ai, int bi, int ci) {
 	return (x[ai] - x[bi]) * (y[ci] - y[bi]) == (y[ai] - y[bi]) * (x[ci] - x[bi]);
 }
 
+//area of triangle when one point is at (0, 0)

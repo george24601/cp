@@ -1,3 +1,7 @@
+from math import floor
+from math import sqrt
+from collections import deque
+import numpy
 from _collections import deque
 from _ast import Num
 
@@ -25,56 +29,43 @@ def gi():
 
 MOD = int(1e9 + 7)
 
-import numpy
-from collections import deque
-from math import sqrt
-from math import floor
 # https://atcoder.jp/contests/abc145/tasks/abc145_e
 # E - All-you-can-eat
 """
-DP1[i][j] =the maximum sum of deliciousness of dishes, which are chosen from 1st- to i-th dishes,
-such that he can finish them in j minutes
-
-still WA!!!
-
 """
-t1 = gi()
-t2 = gi()
-a1 = gi()
-a2 = gi()
-b1 = gi()
-b2 = gi()
 
-if a1 < b1:
-    a1, b1 = b1, a1
-    a2, b2 = b2, a2
+N = gi()
+T = gi()
+A = [0] * (N + 5)
+B = [0] * (N + 5)
+for i in range(1, N + 1):
+    A[i] = gi()
+    B[i] = gi()
 
-#print(a1, a2, b1, b2)
-
-d1 = (a1 - b1) * t1
-d2 = (a2 - b2) * t2
-
-net = d1 + d2
+pref = [[0 for x in range(T + 5)] for i in range(N + 5)
+       ]  #pop i order is inversed
+suff = [[0 for x in range(T + 5)] for i in range(N + 5)]
 
 
-def run():
-    if d1 == 0 or net == 0:
-        print('infinity')
-        return
-    elif net > 0:
-        print(0)
-        return
+def precalc():
+    for i in range(1, N + 1):
+        for t in range(T):  # max T - 1 complete minutes
+            pref[i][t] = max(pref[i][t], pref[i - 1][t])
+            if t >= A[i]:
+                pref[i][t] = max(pref[i][t], pref[i - 1][t - A[i]] + B[i])
 
-    d = abs(net)
-
-    ans = 0
-    p2 = (d1 // d)
-    if (d1 % d == 0):
-        ans = 2 * p2
-    else:
-        ans = 2 * p2 + 1
-
-    print(ans)
+    for i in range(N, 0, -1):
+        for t in range(T):
+            suff[i][t] = max(suff[i][t], suff[i + 1][t])
+            if t >= A[i]:
+                suff[i][t] = max(suff[i][t], suff[i + 1][t - A[i]] + B[i])
 
 
-run()
+precalc()
+
+ans = 0
+
+for li in range(1, N + 1):
+    for pt in range(T):
+        ans = max(ans, pref[li - 1][pt] + suff[li + 1][T - 1 - pt] + B[li])
+print(ans)

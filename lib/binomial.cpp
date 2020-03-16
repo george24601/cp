@@ -31,3 +31,5 @@ LL choose(LL top, LL bottom) {
 
 	return (f[top] * bfs) % MOD;
 }
+
+//in mod 1e9 + 7, the division A/B mod MOD is calculated by A * pow(B, MOD-2)) % MOD;
