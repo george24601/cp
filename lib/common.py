@@ -1,15 +1,3 @@
-a, b, c = 1, 2L, "john"
-#casting
-float(value)
-bool(value) # Will only return false for an empty string or an int=0
-
-#swap values
-x, y = 1, 2
-x, y = y, x
-
-2 ** 10 = 1024
-
-### IO
 
 ans = [[0 for x in range(W)] for i in range(H + 5)]  #[] * N won't work
 nbls = [[] for i in range(N + 5)]  #[] * N won't work
@@ -34,5 +22,39 @@ def gi():
 import numpy
 import scipy
 
-# reads a single line
+###U-F
+def union(p, i, j):
+    if i == j:
+        return
+    pi = find(p, i)
+    pj = find(p, j)
+    p[max(pi, pj)] = min(pi, pj)
+
+
+def find(p, i):
+    if p[i] == i:
+        return i
+    p[i] = find(p, p[i])
+    return p[i]
+
+### array to LL
+def toLL(l):
+    head = ListNode(l[0])
+    tail = head
+    for i in range(1, len(l)):
+        node = ListNode(l[i])
+        tail.next = node
+        tail = node
+    return head
+
+#print tree
+def ppre(root):
+    rv = root.val
+    print(rv)
+    if root.left:
+        print(rv, "L:")
+        ppre(root.left)
+    if root.right:
+        print(rv, "R:")
+        ppre(root.right)
 

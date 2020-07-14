@@ -31,3 +31,4 @@
 .py*
 *.swp
 *.in
+.vscode
