@@ -1,4 +1,4 @@
-package formulaparsing
+package shuntingyard
 
 import "strconv"
 
