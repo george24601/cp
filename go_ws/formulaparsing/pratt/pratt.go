@@ -43,10 +43,10 @@ func parseLevel(tokens []Token, nextI int, minBinding int) (ExprNode, int) {
 		rightBinding := getPrefixBinding(opToken)
 		insideExpr, newNextI := parseLevel(tokens, nextI+1, rightBinding)
 
-		return ExprTree{op: opToken.op, lhs: insideExpr}, newNextI
+		return ExprTree{op: opToken.op, rhs: insideExpr}, newNextI
 	}
 
-	var expr ExprNode = ExprAtom{value: firstToken.(NumToken).value}
+	var expr ExprNode = ExprNum{value: firstToken.(NumToken).value}
 	nextI += 1
 
 	for {

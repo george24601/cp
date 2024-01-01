@@ -4,7 +4,6 @@ import "fmt"
 
 type ExprNode interface {
 	String() string
-	Eval() float64
 }
 
 type ExprTree struct {
@@ -14,40 +13,38 @@ type ExprTree struct {
 }
 
 func (tree ExprTree) String() string {
-	return "(" + tree.op + " " + tree.lhs.String() + " " + tree.rhs.String() + ")"
-}
+	toReturn := "("
 
-func (tree ExprTree) Eval() float64 {
+	toReturn += tree.op
 
-	if tree.op == "+" {
-		if tree.rhs == nil {
-			return tree.lhs.Eval()
-		} else {
-			return tree.lhs.Eval() + tree.rhs.Eval()
-		}
-	} else if tree.op == "-" {
-		if tree.rhs == nil {
-			return -tree.lhs.Eval()
-		} else {
-			return tree.lhs.Eval() - tree.rhs.Eval()
-		}
-	} else if tree.op == "*" {
-		return tree.lhs.Eval() * tree.rhs.Eval()
-	} else if tree.op == "/" {
-		return tree.lhs.Eval() / tree.rhs.Eval()
+	if tree.lhs != nil {
+		toReturn += " " + tree.lhs.String()
 	}
 
-	return -999
+	if tree.rhs != nil {
+		toReturn += " " + tree.rhs.String()
+	}
+
+	toReturn += ")"
+	return toReturn
 }
 
-type ExprAtom struct {
+type ExprNum struct {
 	value float64
 }
 
-func (atom ExprAtom) String() string {
+type ExprId struct {
+	id string
+}
+
+func (atom ExprNum) String() string {
 	return fmt.Sprintf("%.2f", atom.value)
 }
 
-func (atom ExprAtom) Eval() float64 {
+func (id ExprId) String() string {
+	return id.id
+}
+
+func (atom ExprNum) Eval() float64 {
 	return atom.value
 }

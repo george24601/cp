@@ -27,10 +27,6 @@ func TestParse(t *testing.T) {
 	sequential := []Token{NumToken{value: 2}, OpToken{op: "*"}, NumToken{value: 3}, OpToken{op: "+"}, NumToken{value: 4}}
 
 	parsed := Pratt(sequential)
-	if parsed.Eval() != 10 {
-		t.Error()
-	}
-
 	if parsed.String() != "(+ (* 2.00 3.00) 4.00)" {
 		t.Error()
 	}
@@ -44,17 +40,13 @@ func TestParse(t *testing.T) {
 	brackets := []Token{NumToken{value: 2}, OpToken{op: "*"}, TextToken{value: "("}, NumToken{value: 3}, OpToken{op: "+"}, NumToken{value: 4}, TextToken{value: ")"}}
 
 	parsedBrackets := Pratt(brackets)
-	if parsedBrackets.Eval() != 14 {
-		t.Error()
-	}
-
 	if parsedBrackets.String() != "(* 2.00 (+ 3.00 4.00))" {
 		t.Error()
 	}
 
 	unary := []Token{OpToken{op: "-"}, TextToken{value: "("}, NumToken{value: 3}, OpToken{op: "+"}, NumToken{value: 4}, TextToken{value: ")"}}
 
-	if Pratt(unary).Eval() != -7 {
+	if Pratt(unary).String() != "(- (+ 3.00 4.00))" {
 		t.Error()
 	}
 
