@@ -26,11 +26,15 @@ func isText(token Token, expected string) bool {
 }
 
 /*
-parse all continuous tokens starting at nextI int, with binding power no less that the threshold
+invariants:
+* it is the end of a full expression once we reach ) or EOF
+* it is the end of a full expression once the new operator cannot bind stronger than existing ones
+
 */
 
 func parseLevel(tokens []Token, nextI int, minBinding int) (ExprNode, int) {
 	firstToken := tokens[nextI]
+	var expr ExprNode
 
 	if isText(firstToken, "(") {
 		parsed, rightBracketI := parseLevel(tokens, nextI+1, 0)
@@ -39,15 +43,15 @@ func parseLevel(tokens []Token, nextI int, minBinding int) (ExprNode, int) {
 
 		return parsed, rightBracketI + 1
 	} else if opToken, isOpToken := firstToken.(OpToken); isOpToken {
-		//TODO: assert only + and -
+		//TODO: assert it is only + and -
 		rightBinding := getPrefixBinding(opToken)
 		insideExpr, newNextI := parseLevel(tokens, nextI+1, rightBinding)
 
 		return ExprTree{op: opToken.op, rhs: insideExpr}, newNextI
+	} else if numToken, isNumToken := firstToken.(NumToken); isNumToken {
+		expr = ExprNum{value: numToken.value}
+		nextI += 1
 	}
-
-	var expr ExprNode = ExprNum{value: firstToken.(NumToken).value}
-	nextI += 1
 
 	for {
 		if nextI >= len(tokens) {
