@@ -20,9 +20,17 @@ func (tree ExprTree) String() string {
 func (tree ExprTree) Eval() float64 {
 
 	if tree.op == "+" {
-		return tree.lhs.Eval() + tree.rhs.Eval()
+		if tree.rhs == nil {
+			return tree.lhs.Eval()
+		} else {
+			return tree.lhs.Eval() + tree.rhs.Eval()
+		}
 	} else if tree.op == "-" {
-		return tree.lhs.Eval() - tree.rhs.Eval()
+		if tree.rhs == nil {
+			return -tree.lhs.Eval()
+		} else {
+			return tree.lhs.Eval() - tree.rhs.Eval()
+		}
 	} else if tree.op == "*" {
 		return tree.lhs.Eval() * tree.rhs.Eval()
 	} else if tree.op == "/" {

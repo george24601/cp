@@ -1,6 +1,6 @@
 package pratt
 
-func getBinding(token OpToken) (int, int) {
+func getInfixBinding(token OpToken) (int, int) {
 
 	if token.op == "+" || token.op == "-" {
 		return 3, 4
@@ -9,6 +9,15 @@ func getBinding(token OpToken) (int, int) {
 	}
 
 	return -1, -1
+}
+
+func getPrefixBinding(token OpToken) int {
+
+	if token.op == "+" || token.op == "-" {
+		return 8
+	}
+
+	return -1
 }
 
 func isText(token Token, expected string) bool {
@@ -29,6 +38,12 @@ func parseLevel(tokens []Token, nextI int, minBinding int) (ExprNode, int) {
 		//TODO: assert that text is expected
 
 		return parsed, rightBracketI + 1
+	} else if opToken, isOpToken := firstToken.(OpToken); isOpToken {
+		//TODO: assert only + and -
+		rightBinding := getPrefixBinding(opToken)
+		insideExpr, newNextI := parseLevel(tokens, nextI+1, rightBinding)
+
+		return ExprTree{op: opToken.op, lhs: insideExpr}, newNextI
 	}
 
 	var expr ExprNode = ExprAtom{value: firstToken.(NumToken).value}
@@ -45,8 +60,7 @@ func parseLevel(tokens []Token, nextI int, minBinding int) (ExprNode, int) {
 
 		opToken := tokens[nextI].(OpToken)
 
-		//TODO: handle (())
-		nextBindingLeft, nextBindingRight := getBinding(opToken)
+		nextBindingLeft, nextBindingRight := getInfixBinding(opToken)
 
 		if nextBindingLeft < minBinding {
 			return expr, nextI
@@ -54,7 +68,9 @@ func parseLevel(tokens []Token, nextI int, minBinding int) (ExprNode, int) {
 
 		nextI += 1
 
-		rhsExpr, newNext := parseLevel(tokens, nextI, max(nextBindingLeft, nextBindingRight))
+		//help decide if the sub-expr would bind to the current operator.
+		//Also helps implement right associative operators
+		rhsExpr, newNext := parseLevel(tokens, nextI, nextBindingRight)
 
 		nextI = newNext
 		expr = ExprTree{op: opToken.op, lhs: expr, rhs: rhsExpr}
