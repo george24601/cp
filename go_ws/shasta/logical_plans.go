@@ -9,7 +9,7 @@ type LogicalProjection struct {
 
 // LogicalSelection represents a where or having predicate.
 type LogicalSelection struct {
-	//	baseLogicalPlan
+	baseLogicalPlan
 
 	// Originally the WHERE or ON condition is parsed into a single expression,
 	// but after we converted to CNF(Conjunctive normal form), it can be
