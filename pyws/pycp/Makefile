@@ -3,5 +3,5 @@ F := A_1.in
 l: 
 	yapf -i --style=google $(M).py 
 	
-r: l
+r:
 	python3 $(M).py < A_1.in
